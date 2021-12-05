@@ -1,37 +1,36 @@
-let mongoose = require('mongoose')
-
-
+const mongoose = require('mongoose');
 const EmployeeSchema = new mongoose.Schema({
-    ID: {
-        type: Number,
-        default: 00,
-        validate(v) {
-            if(v < 0) throw new Error("ID cannot be negative")
-        },
 
-    firstName: {type: String,
-        required: true,
+    id:{
+        
+        type:Number,
+        require:[true, "Id cannot be empty"]
+    },
+
+    firstName: {
+
+        type: String,
+        required: [true, "First name cannot be empty"],
         trim: true,
-        lowercase: true
     },
 
     lastName: {
+
         type: String,
-        required: true,
+        required: [true, "Last name cannot be empty"],
         trim: true,
-        lowercase: true
     },
 
-    emailId: {
+    emailId:{
+
         type: String,
+        required: [true, "Email cannot be empty and must be in valid format"],
+        trim: true,
         lowercase: true,
-        uppercase: true,
-        Number: true,
-        syntax: true
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Add a valid email address']
     }
+});
 
-}
-})
+const Employee = mongoose.model("Employee", EmployeeSchema);
 
-const Employee = mongoose.model("employee", EmployeeSchema)
 module.exports = Employee;
